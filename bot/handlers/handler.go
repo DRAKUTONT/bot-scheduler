@@ -33,6 +33,7 @@ func (handler *Handler) HandleMessage() error {
 		switch update.Message.Command() {
 		case "start", "help":
 			handler.StartAndHelp(update)
+			fmt.Println(update.Message.Entities)
 		default:
 			handler.UnknownMessage(update)
 		}
@@ -51,10 +52,6 @@ func (handler *Handler) SendMessage(message tgbotapi.MessageConfig) error {
 
 func (handler *Handler) isValidMessage(update *tgbotapi.Update) bool {
 	if update.Message == nil {
-		return false
-	}
-
-	if !update.Message.IsCommand() {
 		return false
 	}
 
