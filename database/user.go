@@ -73,6 +73,16 @@ func (db *Database) UpdateTask(userID int, task string) error {
 	return nil
 }
 
+func (db *Database) UpdateIsActive(userID int, isActive bool) error {
+	query := `UPDATE users SET isActive = ? WHERE userID = ?`
+
+	if _, err := db.db.Exec(query, isActive, userID); err != nil {
+		return fmt.Errorf("can't add task: %w", err)
+	}
+
+	return nil
+}
+
 func (db *Database) IsUserExists(userID int) (bool, error) {
 	q := `SELECT COUNT(*) FROM users WHERE userID = ?`
 

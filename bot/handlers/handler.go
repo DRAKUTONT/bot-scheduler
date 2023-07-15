@@ -9,16 +9,16 @@ import (
 
 // TODO: прикрутить gocron в хэндлер
 type Handler struct {
-	bot     *tgbotapi.BotAPI
+	bot      *tgbotapi.BotAPI
 	database database.Database
-	timeout int
+	timeout  int
 }
 
 func New(bot *tgbotapi.BotAPI, database *database.Database, timeout int) *Handler {
 	return &Handler{
-		bot:     bot,
+		bot:      bot,
 		database: *database,
-		timeout: timeout,
+		timeout:  timeout,
 	}
 }
 
@@ -36,7 +36,13 @@ func (handler *Handler) HandleMessage() error {
 		switch update.Message.Command() {
 		case "start", "help":
 			handler.StartAndHelp(update)
-			fmt.Println(update.Message.Entities)
+
+		case "stop":
+			handler.Stop(update)
+
+		case "activate":
+			handler.Activate(update)
+
 		default:
 			handler.UnknownMessage(update)
 		}
