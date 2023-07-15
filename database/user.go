@@ -73,6 +73,19 @@ func (db *Database) UpdateTask(userID int, task string) error {
 	return nil
 }
 
+func (db *Database) IsUserExists(userID int) (bool, error) {
+	q := `SELECT COUNT(*) FROM users WHERE userID = ?`
+
+	var count int
+
+	if err := db.db.QueryRow(q, userID).Scan(&count); err != nil {
+		return false, fmt.Errorf("can't check if user exists: %w", err)
+	}
+
+	return count > 0, nil
+}
+
+
 func (db *Database) Init() error {
 	query := `CREATE TABLE IF NOT EXISTS users (userID INTEGER, isActive INTEGER, taskLits)`
 

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"antiProcrastinationBotModule/database"
 	"fmt"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -9,12 +10,14 @@ import (
 // TODO: прикрутить gocron в хэндлер
 type Handler struct {
 	bot     *tgbotapi.BotAPI
+	database database.Database
 	timeout int
 }
 
-func New(bot *tgbotapi.BotAPI, timeout int) *Handler {
+func New(bot *tgbotapi.BotAPI, database *database.Database, timeout int) *Handler {
 	return &Handler{
 		bot:     bot,
+		database: *database,
 		timeout: timeout,
 	}
 }

@@ -23,6 +23,8 @@ func main() {
 		log.Panic(err)
 	}
 
-	handler := handlers.New(bot, 60)
+	database.Init()
+
+	handler := handlers.New(bot, database, 60)
 	handler.HandleMessage()
 }
