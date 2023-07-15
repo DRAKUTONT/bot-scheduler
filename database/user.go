@@ -53,7 +53,7 @@ func (db *Database) GetUsers() ([]User, error) {
 
 	for rows.Next() {
 		u := User{}
-		err := rows.Scan(&u.UserID, true, &u.TaskList)
+		err := rows.Scan(&u.UserID, &u.TaskList)
 		if err != nil {
 			fmt.Println(err)
 			continue

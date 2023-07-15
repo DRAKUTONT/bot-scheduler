@@ -7,7 +7,6 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
-// TODO: прикрутить gocron в хэндлер
 type Handler struct {
 	bot      *tgbotapi.BotAPI
 	database database.Database
@@ -42,10 +41,10 @@ func (handler *Handler) HandleMessage() error {
 
 		case "activate":
 			handler.Activate(update)
-		
+
 		case "create_task":
 			handler.CreateTask(update)
-		
+
 		case "my_task":
 			handler.GetTask(update)
 
