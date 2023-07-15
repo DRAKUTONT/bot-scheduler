@@ -42,6 +42,12 @@ func (handler *Handler) HandleMessage() error {
 
 		case "activate":
 			handler.Activate(update)
+		
+		case "create_task":
+			handler.CreateTask(update)
+		
+		case "my_task":
+			handler.GetTask(update)
 
 		default:
 			handler.UnknownMessage(update)

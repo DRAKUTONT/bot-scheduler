@@ -9,7 +9,7 @@ import (
 
 type User struct {
 	UserID   int
-	IsActive  bool
+	IsActive bool
 	TaskList string
 }
 
@@ -44,27 +44,29 @@ func (db *Database) GetUsers() ([]User, error) {
 
 	rows, err := db.db.Query(query)
 
-    if err != nil {
-        return nil, fmt.Errorf("can't found users: %w", err)
-    }
+	if err != nil {
+		return nil, fmt.Errorf("can't found users: %w", err)
+	}
 
-    defer rows.Close()
-    users := []User{}
-     
-    for rows.Next(){
-        u := User{}
-        err := rows.Scan(&u.UserID, true, &u.TaskList)
-        if err != nil{
-            fmt.Println(err)
-            continue
-        }
-        users = append(users, u)
-    }
+	defer rows.Close()
+	users := []User{}
+
+	for rows.Next() {
+		u := User{}
+		err := rows.Scan(&u.UserID, true, &u.TaskList)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+		users = append(users, u)
+	}
 	return users, nil
 }
 
+
+
 func (db *Database) UpdateTask(userID int, task string) error {
-	query := `UPDATE users SET task = ? WHERE userID = ?`
+	query := `UPDATE users SET taskList = ? WHERE userID = ?`
 
 	if _, err := db.db.Exec(query, task, userID); err != nil {
 		return fmt.Errorf("can't add task: %w", err)
@@ -83,6 +85,18 @@ func (db *Database) UpdateIsActive(userID int, isActive bool) error {
 	return nil
 }
 
+func (db *Database) GetTask(userID int) (string, error) {
+	q := `SELECT taskList FROM users WHERE userID = ?`
+
+	var task string
+
+	if err := db.db.QueryRow(q, userID).Scan(&task); err != nil {
+		return "", fmt.Errorf("can't get task: %w", err)
+	}
+
+	return task, nil
+}
+
 func (db *Database) IsUserExists(userID int) (bool, error) {
 	q := `SELECT COUNT(*) FROM users WHERE userID = ?`
 
@@ -95,7 +109,6 @@ func (db *Database) IsUserExists(userID int) (bool, error) {
 	return count > 0, nil
 }
 
-
 func (db *Database) Init() error {
 	query := `CREATE TABLE IF NOT EXISTS users (userID INTEGER, isActive INTEGER, taskLits)`
 
@@ -106,4 +119,3 @@ func (db *Database) Init() error {
 
 	return nil
 }
-
