@@ -29,7 +29,7 @@ func main() {
 	database.Init()
 
 	sheduler := gocron.NewScheduler(time.Now().Location())
-	sheduler.Every(1).Day().At("10:00;13:00;19:00").Do(telegramSheduler.Shedule, bot, database)
+	sheduler.Every(1).Day().At("10:00;13:00;19:00;20:00").Do(telegramSheduler.Shedule, bot, database)
 	sheduler.StartAsync()
 
 	handler := handlers.New(bot, database, 60)

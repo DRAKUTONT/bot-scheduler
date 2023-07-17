@@ -14,7 +14,7 @@ func Shedule(bot *tgbotapi.BotAPI, database *database.Database) error {
 		return fmt.Errorf("can't get user(shedule func): %w", err)
 	}
 	for _, user := range users {
-		message := tgbotapi.NewMessage(int64(user.UserID), "Ваш список задач на сегодня:"+user.TaskList)
+		message := tgbotapi.NewMessage(int64(user.UserID), "Ваш список задач на сегодня:\n"+user.TaskList)
 
 		if _, err := bot.Send(message); err != nil {
 			return fmt.Errorf("can't send message: %w", err)

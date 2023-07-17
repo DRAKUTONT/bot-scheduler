@@ -66,7 +66,7 @@ func (handler *Handler) Activate(update tgbotapi.Update) error {
 
 func (handler *Handler) CreateTask(update tgbotapi.Update) error {
 	_, task, _ := strings.Cut(update.Message.Text, " ")
-	fmt.Println(task)
+	
 	message := tgbotapi.NewMessage(update.Message.Chat.ID, "")
 	if task == "" {
 		message.Text = "Вы не указали задание"
